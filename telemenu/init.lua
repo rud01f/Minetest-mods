@@ -14,19 +14,6 @@ telemenu = {};
 tele.locations = {};
 tele.runtime_data = {};
 
-telemenu.receive_fields = {};
-telemenu.telemenu_cmd = {};
-telemenu.display_dialog = {};
-telemenu.read_player_locations = {};
-telemenu.store_player_locations = {};
-telemenu.serve_tele_dialog = {};
-telemenu.display_confirmation = {};
-telemenu.parse_button = {};
-telemenu.serve_confirmation_dialog = {};
-telemenu.display_edit = {};
-telemenu.serve_edit_dialog = {};
-telemenu.cleanup = {};
-
 function telemenu.receive_fields(player, formname, fields)
     if formname == "telemenu:teledialog" and minetest.check_player_privs(player, "teleport") then
         telemenu.serve_tele_dialog(player, fields);
@@ -300,4 +287,3 @@ minetest.register_chatcommand("telemenu", {
 
 minetest.register_on_player_receive_fields(telemenu.receive_fields);
 minetest.register_on_leaveplayer(telemenu.cleanup);
-
