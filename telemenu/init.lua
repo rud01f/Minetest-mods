@@ -6,22 +6,32 @@
             Everyone is permitted to copy and distribute verbatim or modified
             copies of this license document, and changing it is allowed as long
             as the name is changed.
+
+
+            ###
+            
+            use /telemenu or /tm command to open telemenu dialog
 --]]
 
+
+-- priviledge needed to use /telemenu (and /tm) command
+local TELE_PRIV_NEEDED = "teleport";
+
 local tele = {};
+
 telemenu = {};
 
 tele.locations = {};
 tele.runtime_data = {};
 
 function telemenu.receive_fields(player, formname, fields)
-    if formname == "telemenu:teledialog" and minetest.check_player_privs(player, "teleport") then
+    if formname == "telemenu:teledialog" and minetest.check_player_privs(player, TELE_PRIV_NEEDED) then
         telemenu.serve_tele_dialog(player, fields);
         return true;
-    elseif formname == "telemenu:confirmation" and minetest.check_player_privs(player, "teleport") then
+    elseif formname == "telemenu:confirmation" and minetest.check_player_privs(player, TELE_PRIV_NEEDED) then
         telemenu.serve_confirmation_dialog(player, fields);
         return true;
-    elseif formname == "telemenu:edit" and minetest.check_player_privs(player, "teleport") then
+    elseif formname == "telemenu:edit" and minetest.check_player_privs(player, TELE_PRIV_NEEDED) then
         telemenu.serve_edit_dialog(player, fields);
         return true;
     end
@@ -280,10 +290,20 @@ function telemenu.cleanup(player, timed_out)
     end
 end
 
+local privs = {};
+privs[TELE_PRIV_NEEDED] = true;
+
 minetest.register_chatcommand("telemenu", {
-    privs = { teleport=true },
+    privs,
     func = telemenu.telemenu_cmd
 });
+
+-- comment the one below (/tm command) if it conflicts with other mods
+minetest.register_chatcommand("tm", {
+    privs,
+    func = telemenu.telemenu_cmd
+});
+
 
 minetest.register_on_player_receive_fields(telemenu.receive_fields);
 minetest.register_on_leaveplayer(telemenu.cleanup);
