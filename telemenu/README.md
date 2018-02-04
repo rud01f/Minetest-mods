@@ -13,3 +13,4 @@ Meaning of icons/buttons (leftmost first).
 * edit (E) - changes item name (with prompt)
 * goto (-->) - teleports to given item
 
+if you use this mod, please drop by a comment in some way (pm on Minetest forums maybe - rud01f; rud - zero - one - f).
