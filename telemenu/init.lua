@@ -28,13 +28,13 @@ telemenu.serve_edit_dialog = {};
 telemenu.cleanup = {};
 
 function telemenu.receive_fields(player, formname, fields)
-    if formname == "telemenu:teledialog" then
+    if formname == "telemenu:teledialog" and minetest.check_player_privs(player, "teleport") then
         telemenu.serve_tele_dialog(player, fields);
         return true;
-    elseif formname == "telemenu:confirmation" then
+    elseif formname == "telemenu:confirmation" and minetest.check_player_privs(player, "teleport") then
         telemenu.serve_confirmation_dialog(player, fields);
         return true;
-    elseif formname == "telemenu:edit" then
+    elseif formname == "telemenu:edit" and minetest.check_player_privs(player, "teleport") then
         telemenu.serve_edit_dialog(player, fields);
         return true;
     end
