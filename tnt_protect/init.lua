@@ -15,7 +15,7 @@ minetest.override_item("tnt:tnt", {
 		--node = minetest.get_node(pointed_thing.under)
 		if not minetest.check_player_privs(placer:get_player_name(),
 				{worldedit = true}) and pointed_thing.under.y >= -1 * tnt_radius then
-			minetest.chat_send_player(placer:get_player_name(),"You dont have permission to place tnt with explosion range above sea level (missing privledges: worldedit)")
+			minetest.chat_send_player(placer:get_player_name(),"You dont have permission to place tnt with explosion range above sea level (missing privleges: worldedit)")
 			return itemstack
 		else
 			return old_tnt_place(itemstack, placer, pointed_thing)
