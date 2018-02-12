@@ -294,13 +294,13 @@ local privs = {};
 privs[TELE_PRIV_NEEDED] = true;
 
 minetest.register_chatcommand("telemenu", {
-    privs,
+    privs = privs,
     func = telemenu.telemenu_cmd
 });
 
 -- comment the one below (/tm command) if it conflicts with other mods
 minetest.register_chatcommand("tm", {
-    privs,
+    privs = privs,
     func = telemenu.telemenu_cmd
 });
 
