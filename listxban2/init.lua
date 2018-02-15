@@ -1,9 +1,10 @@
-
+--[[
 local DEF_DB_FILENAME = minetest.get_worldpath().."/xban.db"
 local DB_FILENAME = minetest.setting_get("xban.db_filename")
 if (not DB_FILENAME) or (DB_FILENAME == "") then
 	DB_FILENAME = DEF_DB_FILENAME
 end
+]]--
 local banlist = {};
 local sel = {};
 
