@@ -188,12 +188,11 @@ minetest.register_on_shutdown(function()
 end);
 
 function nice_duration(secs)
+    local d = math.floor(secs / 60 / 60 / 24);
+    local h = math.floor(secs / 60 / 60) % 24;
+    local m = math.floor(secs / 60) % 60;
     local s = secs % 60;
-    secs = math.floor(secs / 60);
-    local m = secs % 60;
-    secs = math.floor(secs / 24);
-    local d = secs;
-    return ("%dd %dm %ds"):format(d,m,s); 
+    return ("%dd %dh %dm %ds"):format(d,h,m,s); 
 end
 
 function on_stats(pname, param)
