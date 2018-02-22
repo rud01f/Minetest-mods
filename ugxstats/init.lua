@@ -210,8 +210,8 @@ function on_stats(pname, param)
         size[12,9]
         position[0.5,0.5]        
     ]] .. 
-    ("label[0,0;Stats of user %s]"):format(esc(name)) ..
-    ("label[0.1,0.5;Since %s]"):format(esc(os.date("%c",since))) ..
+    ("label[0.5,0.0;Since %s]"):format(esc(os.date("%c",since))) ..
+    ("label[0,0.5;Stats of user %s]"):format(esc(name)) ..
     "label[0,1.5;Online time:]" ..
     "label[0,2.0;Times joined:]" ..
     "label[0,2.5;Said characters:]" ..
@@ -251,7 +251,7 @@ function on_stats(pname, param)
     "label[6,5.0;Walked distance:]" ..
     "label[6,5.5;HP gained:]" ..
     "label[6,6.0;HP lost:]" ..
-    "label[6,6.5;Items crafted:]" ..
+    "label[6,6.5;Items crafte:]" ..
     "label[6,7.0;Total respawns:]" ..
     "label[6,7.5;Food eaten:]" ..
     ("label[9,1.5;%s]"):format(nice_duration(ustats[param].timeonline)) ..
