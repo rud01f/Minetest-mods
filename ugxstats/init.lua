@@ -196,8 +196,11 @@ function nice_duration(secs)
 end
 
 function on_stats(pname, param)
+    if param == "" then 
+        param = pname;
+    end
     if ustats[param] == nil then
-        minetest.chat_send_player(name, "No stats of such player.");
+        minetest.chat_send_player(pname, "No stats of such player.");
         return;
     end
         
@@ -240,7 +243,7 @@ function on_stats(pname, param)
     return true;
 end
 
-function on_statsme(name, param)
+--[[function on_statsme(name, param)
     on_stats(name, name);
     return true;
 end
@@ -249,6 +252,7 @@ minetest.register_chatcommand("statsme", {
     description = "Show my stats.",
     func = on_statsme,
 });
+]]--
 
 minetest.register_chatcommand("stats", {
     params="<player-name>",
