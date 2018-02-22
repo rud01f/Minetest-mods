@@ -251,7 +251,7 @@ function on_stats(pname, param)
     "label[6,5.0;Walked distance:]" ..
     "label[6,5.5;HP gained:]" ..
     "label[6,6.0;HP lost:]" ..
-    "label[6,6.5;Items crafte:]" ..
+    "label[6,6.5;Items crafted:]" ..
     "label[6,7.0;Total respawns:]" ..
     "label[6,7.5;Food eaten:]" ..
     ("label[9,1.5;%s]"):format(nice_duration(ustats[param].timeonline)) ..
