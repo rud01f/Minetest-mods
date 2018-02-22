@@ -196,15 +196,16 @@ function nice_duration(secs)
 end
 
 function on_stats(pname, param)
-    if param == "" then 
-        param = pname;
-    end
-    if ustats[param] == nil then
+    if ustats[pname] == nil then
+        minetest.chat_send_player(pname, "No stats for you so far.");
+        return;
+    end    
+    if param ~= "" and ustats[param] == nil then
         minetest.chat_send_player(pname, "No stats of such player.");
         return;
     end
-        
-    local name = param;
+    
+    local name = pname;
     local fs = [[
         size[12,9]
         position[0.5,0.5]        
@@ -236,8 +237,39 @@ function on_stats(pname, param)
     ("label[3,6.0;%d]"):format(ustats[name].hplost) ..
     ("label[3,6.5;%d]"):format(ustats[name].crafted) ..
     ("label[3,7.0;%d]"):format(ustats[name].respawns) ..
-    ("label[3,7.5;%d]"):format(ustats[name].itemseaten) ..
-    "button_exit[4.5,8.2;3,1;exit;OK]";
+    ("label[3,7.5;%d]"):format(ustats[name].itemseaten);
+
+    if param ~= "" then
+    fs = fs .. ("label[6,0.5;Stats of user %s]"):format(esc(param)) ..
+    "label[6,1.5;Online time:]" ..
+    "label[6,2.0;Times joined:]" ..
+    "label[6,2.5;Said characters:]" ..
+    "label[6,3.0;Said words:]" ..
+    "label[6,3.5;Total deaths:]" ..
+    "label[6,4.0;Nodes placed:]" ..
+    "label[6,4.5;Nodes dug:]" ..
+    "label[6,5.0;Walked distance:]" ..
+    "label[6,5.5;HP gained:]" ..
+    "label[6,6.0;HP lost:]" ..
+    "label[6,6.5;Items crafte:]" ..
+    "label[6,7.0;Total respawns:]" ..
+    "label[6,7.5;Food eaten:]" ..
+    ("label[9,1.5;%s]"):format(nice_duration(ustats[param].timeonline)) ..
+    ("label[9,2.0;%d]"):format(ustats[param].timjoin) ..
+    ("label[9,2.5;%d]"):format(ustats[param].charsaid) ..
+    ("label[9,3.0;%d]"):format(ustats[param].wordsaid) ..
+    ("label[9,3.5;%d]"):format(ustats[param].deaths) ..
+    ("label[9,4.0;%d]"):format(ustats[param].nodesplcd) ..
+    ("label[9,4.5;%d]"):format(ustats[param].nodesdug) ..
+    ("label[9,5.0;%.3fkm]"):format(ustats[param].distance / 1000.0) ..
+    ("label[9,5.5;%d]"):format(ustats[param].hpgained) ..
+    ("label[9,6.0;%d]"):format(ustats[param].hplost) ..
+    ("label[9,6.5;%d]"):format(ustats[param].crafted) ..
+    ("label[9,7.0;%d]"):format(ustats[param].respawns) ..
+    ("label[9,7.5;%d]"):format(ustats[param].itemseaten);
+    end
+
+    fs = fs .. "button_exit[4.5,8.2;3,1;exit;OK]";
 
     minetest.show_formspec(pname, "ugxstats:form", fs);
     return true;
