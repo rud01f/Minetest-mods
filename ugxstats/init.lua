@@ -30,7 +30,7 @@ local esc = minetest.formspec_escape;
 -- deaths: total deaths
 -- hpgained: total hp gained
 -- hplost: total hp lost
--- respawns: total # of respawns
+-- killedpvp: total # of killed players
 -- crafted: total # of player crafting something
 -- timeonline: total time spent online
 -- itemseaten: total number of eaten items
@@ -49,7 +49,7 @@ minetest.register_on_joinplayer(function(player)
             deaths = 0,
             hpgained = 0,
             hplost = 0,
-            respawns = 0,
+            killedpvp = 0,
             crafted = 0,
             timeonline = 0,
             itemseaten = 0,
@@ -121,12 +121,6 @@ minetest.register_on_player_hpchange(function(player, hp_change, modifier)
     else
         ustats[name].hplost = ustats[name].hplost - hp_change;
     end        
-end);
-
--- on respawn
-minetest.register_on_respawnplayer(function(player)
-    local name = player:get_player_name();
-    ustats[name].respawns = ustats[name].respawns + 1;    
 end);
 
 -- on craft
@@ -223,7 +217,7 @@ function on_stats(pname, param)
     "label[0,5.5;HP gained:]" ..
     "label[0,6.0;HP lost:]" ..
     "label[0,6.5;Items crafted:]" ..
-    "label[0,7.0;Total respawns:]" ..
+    "label[0,7.0;Players killed:]" ..
     "label[0,7.5;Food eaten:]" ..
     ("label[3,1.5;%s]"):format(nice_duration(ustats[name].timeonline)) ..
     ("label[3,2.0;%d]"):format(ustats[name].timjoin) ..
@@ -236,7 +230,7 @@ function on_stats(pname, param)
     ("label[3,5.5;%d]"):format(ustats[name].hpgained) ..
     ("label[3,6.0;%d]"):format(ustats[name].hplost) ..
     ("label[3,6.5;%d]"):format(ustats[name].crafted) ..
-    ("label[3,7.0;%d]"):format(ustats[name].respawns) ..
+    ("label[3,7.0;%d]"):format(ustats[name].killedpvp) ..
     ("label[3,7.5;%d]"):format(ustats[name].itemseaten);
 
     if param ~= "" then
@@ -252,7 +246,7 @@ function on_stats(pname, param)
     "label[6,5.5;HP gained:]" ..
     "label[6,6.0;HP lost:]" ..
     "label[6,6.5;Items crafte:]" ..
-    "label[6,7.0;Total respawns:]" ..
+    "label[6,7.0;Players killed:]" ..
     "label[6,7.5;Food eaten:]" ..
     ("label[9,1.5;%s]"):format(nice_duration(ustats[param].timeonline)) ..
     ("label[9,2.0;%d]"):format(ustats[param].timjoin) ..
@@ -265,7 +259,7 @@ function on_stats(pname, param)
     ("label[9,5.5;%d]"):format(ustats[param].hpgained) ..
     ("label[9,6.0;%d]"):format(ustats[param].hplost) ..
     ("label[9,6.5;%d]"):format(ustats[param].crafted) ..
-    ("label[9,7.0;%d]"):format(ustats[param].respawns) ..
+    ("label[9,7.0;%d]"):format(ustats[param].killedpvp) ..
     ("label[9,7.5;%d]"):format(ustats[param].itemseaten);
     end
 
@@ -285,6 +279,28 @@ minetest.register_chatcommand("statsme", {
     func = on_statsme,
 });
 ]]--
+
+-- shamefully stolen from ctf pvp
+local dead_players = {}
+minetest.register_on_respawnplayer(function(player)
+	dead_players[player:get_player_name()] = nil
+end)
+minetest.register_on_joinplayer(function(player)
+	dead_players[player:get_player_name()] = nil
+end)
+minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage)
+	if player and hitter then
+		if dead_players[player:get_player_name()] then
+			return false;
+		end
+    
+        if player:get_hp() - damage <= 0 then
+	    	dead_players[player:get_player_name()] = true;
+	    	ustats[hitter:get_player_name()].killedpvp = ustats[hitter:get_player_name()].killedpvp + 1; 
+		    return false;
+	    end
+	end
+end)
 
 minetest.register_chatcommand("stats", {
     params="<player-name>",
