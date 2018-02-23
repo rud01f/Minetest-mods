@@ -1,5 +1,6 @@
-boot_report
-===========
+boot_report mod
+===============
+See license.txt for additional information.
 
 Short installation:
 -------------------
