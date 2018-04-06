@@ -33,7 +33,7 @@ local function check_stuff()
         minetest.log("action", "[boot_report] Report about reboot sent.");   
     else
         fh:close();
-        os.remove(REBOOT_FLAG_FILE); 
+        os.remove(REBOOT_FLAG_FILE);
         minetest.log("action", "[boot_report] Not sending report due to server reboot flag.");
     end    
 end
