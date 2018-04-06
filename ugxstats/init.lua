@@ -31,7 +31,7 @@ local esc = minetest.formspec_escape;
 -- hpgained: total hp gained
 -- hplost: total hp lost
 -- killedpvp: total # of killed players
--- crafted: total # of player crafting something
+-- crafted: total # of player crafting something  
 -- timeonline: total time spent online
 -- itemseaten: total number of eaten items
 
